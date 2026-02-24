@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { auth } from "../services/firebase";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+import Recaptcha from "../components/Recaptcha";  // <-- Step 3 added here
 
 export default function LoginScreen() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [verificationId, setVerificationId] = useState(null);
 
-  // Step 1: Send OTP
   const sendOtp = async () => {
     try {
       const provider = new PhoneAuthProvider(auth);
@@ -22,7 +22,6 @@ export default function LoginScreen() {
     }
   };
 
-  // Step 2: Verify OTP
   const verifyOtp = async () => {
     try {
       const credential = PhoneAuthProvider.credential(verificationId, otp);
@@ -36,6 +35,8 @@ export default function LoginScreen() {
 
   return (
     <View style={{ padding: 20 }}>
+      <Recaptcha />   {/* Step 3: Recaptcha component added here */}
+      
       <Text>Enter Phone Number:</Text>
       <TextInput
         value={phone}
